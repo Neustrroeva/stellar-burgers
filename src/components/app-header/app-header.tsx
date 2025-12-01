@@ -1,11 +1,10 @@
 import { FC } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from '../../services/store';
 import { logoutUser } from '../../services/slices/userSlice';
 import { AppHeaderUI } from '@ui';
 
 export const AppHeader: FC = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
@@ -22,7 +21,6 @@ export const AppHeader: FC = () => {
   return (
     <AppHeaderUI
       userName={user?.name || ''}
-      location={location}
       handleMenuClick={handleMenuClick}
       handleLogout={handleLogout}
     />

@@ -1,10 +1,7 @@
 import { FC, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
-import {
-  createOrder,
-  setCurrentOrder
-} from '../../services/slices/ordersSlice';
+import { createOrder, clearOrder } from '../../services/slices/ordersSlice';
 import { clearConstructor } from '../../services/slices/constructorSlice';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
@@ -42,19 +39,15 @@ export const BurgerConstructor: FC = () => {
     ];
 
     try {
-      const result = await dispatch(createOrder(orderIngredients)).unwrap();
+      await dispatch(createOrder(orderIngredients)).unwrap();
       dispatch(clearConstructor());
-      navigate(`/feed/${result.number}`, {
-        state: { background: { pathname: '/' } }
-      });
     } catch (error) {
       // ignored
     }
   };
 
   const closeOrderModal = () => {
-    dispatch(setCurrentOrder(null));
-    navigate(-1);
+    dispatch(clearOrder());
   };
 
   const price = useMemo(
