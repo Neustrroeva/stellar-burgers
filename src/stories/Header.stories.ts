@@ -1,6 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { Location } from 'react-router-dom';
 
 import { AppHeaderUI } from '@ui';
+
+const mockLocation: Location = {
+  pathname: '/',
+  search: '',
+  hash: '',
+  state: null,
+  key: 'default'
+};
 
 const meta = {
   title: 'Example/Header',
@@ -18,12 +27,18 @@ type Story = StoryObj<typeof meta>;
 
 export const LoggedIn: Story = {
   args: {
-    userName: 'John Doe'
+    userName: 'John Doe',
+    location: mockLocation,
+    handleMenuClick: () => {},
+    handleLogout: () => {}
   }
 };
 
 export const LoggedOut: Story = {
   args: {
-    userName: undefined
+    userName: undefined,
+    location: mockLocation,
+    handleMenuClick: () => {},
+    handleLogout: () => {}
   }
 };
