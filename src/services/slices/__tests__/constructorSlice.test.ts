@@ -100,7 +100,10 @@ describe('constructorSlice', () => {
     });
 
     it('должен добавлять несколько ингредиентов', () => {
-      let state = constructorReducer(initialState, addIngredient(mockIngredient1));
+      let state = constructorReducer(
+        initialState,
+        addIngredient(mockIngredient1)
+      );
       state = constructorReducer(state, addIngredient(mockIngredient2));
 
       expect(state.ingredients).toHaveLength(2);
@@ -111,7 +114,10 @@ describe('constructorSlice', () => {
 
   describe('removeIngredient', () => {
     it('должен удалять ингредиент по индексу', () => {
-      let state = constructorReducer(initialState, addIngredient(mockIngredient1));
+      let state = constructorReducer(
+        initialState,
+        addIngredient(mockIngredient1)
+      );
       state = constructorReducer(state, addIngredient(mockIngredient2));
 
       expect(state.ingredients).toHaveLength(2);
@@ -124,7 +130,10 @@ describe('constructorSlice', () => {
     });
 
     it('не должен удалять ингредиент при неверном индексе', () => {
-      let state = constructorReducer(initialState, addIngredient(mockIngredient1));
+      let state = constructorReducer(
+        initialState,
+        addIngredient(mockIngredient1)
+      );
 
       const action = removeIngredient(10);
       state = constructorReducer(state, action);
@@ -133,18 +142,31 @@ describe('constructorSlice', () => {
     });
 
     it('не должен удалять ингредиент при отрицательном индексе', () => {
-      let state = constructorReducer(initialState, addIngredient(mockIngredient1));
+      let state = constructorReducer(
+        initialState,
+        addIngredient(mockIngredient1)
+      );
 
       const action = removeIngredient(-1);
       state = constructorReducer(state, action);
 
       expect(state.ingredients).toHaveLength(1);
     });
+
+    it('не должен удалять ингредиент из пустого конструктора', () => {
+      const action = removeIngredient(0);
+      const state = constructorReducer(initialState, action);
+
+      expect(state.ingredients).toHaveLength(0);
+    });
   });
 
   describe('moveIngredient', () => {
     it('должен изменять порядок ингредиентов', () => {
-      let state = constructorReducer(initialState, addIngredient(mockIngredient1));
+      let state = constructorReducer(
+        initialState,
+        addIngredient(mockIngredient1)
+      );
       state = constructorReducer(state, addIngredient(mockIngredient2));
 
       expect(state.ingredients[0]).toEqual(mockIngredient1);
@@ -158,7 +180,10 @@ describe('constructorSlice', () => {
     });
 
     it('не должен изменять порядок при одинаковых индексах', () => {
-      let state = constructorReducer(initialState, addIngredient(mockIngredient1));
+      let state = constructorReducer(
+        initialState,
+        addIngredient(mockIngredient1)
+      );
       state = constructorReducer(state, addIngredient(mockIngredient2));
 
       const originalOrder = [...state.ingredients];
@@ -169,11 +194,36 @@ describe('constructorSlice', () => {
     });
 
     it('не должен изменять порядок при неверных индексах', () => {
-      let state = constructorReducer(initialState, addIngredient(mockIngredient1));
+      let state = constructorReducer(
+        initialState,
+        addIngredient(mockIngredient1)
+      );
 
       const originalOrder = [...state.ingredients];
       const action = moveIngredient({ dragIndex: 0, hoverIndex: 10 });
       state = constructorReducer(state, action);
+
+      expect(state.ingredients).toEqual(originalOrder);
+    });
+
+    it('не должен изменять порядок при отрицательных индексах', () => {
+      let state = constructorReducer(
+        initialState,
+        addIngredient(mockIngredient1)
+      );
+      state = constructorReducer(state, addIngredient(mockIngredient2));
+
+      const originalOrder = [...state.ingredients];
+      const action = moveIngredient({ dragIndex: -1, hoverIndex: 0 });
+      state = constructorReducer(state, action);
+
+      expect(state.ingredients).toEqual(originalOrder);
+    });
+
+    it('не должен изменять порядок в пустом конструкторе', () => {
+      const originalOrder = [...initialState.ingredients];
+      const action = moveIngredient({ dragIndex: 0, hoverIndex: 1 });
+      const state = constructorReducer(initialState, action);
 
       expect(state.ingredients).toEqual(originalOrder);
     });
@@ -196,4 +246,3 @@ describe('constructorSlice', () => {
     });
   });
 });
-

@@ -37,9 +37,9 @@ export const Profile: FC = () => {
         })
       ).unwrap();
       setFormValues({ password: '' });
-      } catch (error) {
-        // Ошибка игнорируется
-      }
+    } catch (error) {
+      // Ошибка игнорируется
+    }
   };
 
   const handleCancel = (e: SyntheticEvent) => {
